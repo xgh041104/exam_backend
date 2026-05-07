@@ -27,8 +27,11 @@ func InitDB() (err error) {
 	cfg, _ = ini.Load("conf.ini")
 	cfg.Section("database").MapTo(DatabaseSetting)
 
-	dsn = DatabaseSetting.User + ":" + DatabaseSetting.Password + "@tcp(" + DatabaseSetting.Host + ")/" + DatabaseSetting.Name
-	// DSN:Data Source Name
+	// 加上了 &parseTime=True&loc=Local&tls=true
+	// parseTime 允许将数据库日期自动转为 Go 的 time.Time
+	// tls=true 是连接 TiDB Cloud 的核心要求
+	// 核心改动：在 Host 后面强制加上 :4000，并在末尾加上 tls=true
+	dsn = DatabaseSetting.User + ":" + DatabaseSetting.Password + "@tcp(" + DatabaseSetting.Host + ":4000)/" + DatabaseSetting.Name + "?charset=utf8mb4&parseTime=True&loc=Local&tls=true"
 
 	// 注意！！！这里不要使用:=，我们是给全局变量赋值，然后在main函数中使用全局变量db
 	Db, err = sql.Open("mysql", dsn)
