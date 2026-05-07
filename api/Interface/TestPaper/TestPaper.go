@@ -370,7 +370,7 @@ func GetTestPaperBySchoolId(c *gin.Context) {
 	// left join fileinfo b on a.QuestionContent=b.Id
 
 	var testPaperViewarr []*model.TestPaperView
-	rows, err := lib.Db.Query(" select   a.Id,a.TestPaperName,a.ExamDuration,a.FullMarks,a.PassScore,a.TestPaperType,a.CollegeId,a.MajorId,a.CourseId,a.TeacherId,a.SchoolId,  COALESCE(b.MajorName,'') 'MajorName',COALESCE(c.CollegeName,'') 'CollegeName',COALESCE(d.CourseName,'') 'CourseName'  FROM  testpaper a  left join  major b  on a.MajorID=b.MajorId   left join  college  c  on a.CollegeId=c.Id 	 left join  course d on a.CourseId=d.Id  where a.IsDel=0  and  a.SchoolId=?", SchoolId)
+	rows, err := lib.Db.Query(" select   a.Id,a.TestPaperName,a.ExamDuration,a.FullMarks,a.PassScore,a.TestPaperType,a.CollegeId,a.MajorId,a.CourseId,a.TeacherId,a.SchoolId,  COALESCE(b.MajorName,'') 'MajorName',COALESCE(c.CollegeName,'') 'CollegeName',COALESCE(d.CourseName,'') 'CourseName'  FROM  testpaper a  left join  major b  on a.MajorId=b.MajorId   left join  college  c  on a.CollegeId=c.Id 	 left join  course d on a.CourseId=d.Id  where a.IsDel=0  and  a.SchoolId=?", SchoolId)
 
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
@@ -407,7 +407,7 @@ func GetDelTestPaperByTeacherId(c *gin.Context) {
 	SchoolId := c.Query("SchoolId")
 	tempstr := ""
 
-	strquery := " select   a.Id,a.TestPaperName,a.ExamDuration,a.FullMarks,a.PassScore,a.TestPaperType,a.CollegeId,a.MajorId,a.CourseId,a.TeacherId,a.SchoolId,  COALESCE(b.MajorName,'') 'MajorName',COALESCE(c.CollegeName,'') 'CollegeName',COALESCE(d.CourseName,'') 'CourseName' FROM  testpaper a  left join  major b  on a.MajorID=b.MajorId   left join  college  c  on a.CollegeId=c.Id 	 left join  course d on a.CourseId=d.Id  where a.IsDel=1  "
+	strquery := " select   a.Id,a.TestPaperName,a.ExamDuration,a.FullMarks,a.PassScore,a.TestPaperType,a.CollegeId,a.MajorId,a.CourseId,a.TeacherId,a.SchoolId,  COALESCE(b.MajorName,'') 'MajorName',COALESCE(c.CollegeName,'') 'CollegeName',COALESCE(d.CourseName,'') 'CourseName' FROM  testpaper a  left join  major b  on a.MajorId=b.MajorId   left join  college  c  on a.CollegeId=c.Id 	 left join  course d on a.CourseId=d.Id  where a.IsDel=1  "
 	if TeacherId == "" {
 		c.JSON(http.StatusOK, gin.H{
 			"code": 0,
@@ -499,7 +499,7 @@ func GetTestPaperByTestPaperId(c *gin.Context) {
 
 	TestPaperId := c.Query("TestPaperId")
 	testPaperDetails := new(model.TestPaperDetails)
-	lib.Db.QueryRow("select   a.Id,a.TestPaperName,a.ExamDuration,a.FullMarks,a.PassScore,a.TestPaperType,a.CollegeId,a.MajorId,a.CourseId,a.TeacherId,a.SchoolId,  COALESCE(b.MajorName,'') 'MajorName',COALESCE(c.CollegeName,'') 'CollegeName',COALESCE(d.CourseName,'') 'CourseName',COALESCE(e.SchoolName,'') 'SchoolName',COALESCE(f.TeacherName,'')  'TeacherName' FROM  testpaper a  left join  major b  on a.MajorID=b.MajorId   left join  college  c  on a.CollegeId=c.Id 	 left join  course d on a.CourseId=d.Id 		left join school e on a.SchoolId=e.Id  		LEFT JOIN  teacher f on a.TeacherId=f.TeacherId  where a.IsDel=0  and  a.Id=?", TestPaperId).
+	lib.Db.QueryRow("select   a.Id,a.TestPaperName,a.ExamDuration,a.FullMarks,a.PassScore,a.TestPaperType,a.CollegeId,a.MajorId,a.CourseId,a.TeacherId,a.SchoolId,  COALESCE(b.MajorName,'') 'MajorName',COALESCE(c.CollegeName,'') 'CollegeName',COALESCE(d.CourseName,'') 'CourseName',COALESCE(e.SchoolName,'') 'SchoolName',COALESCE(f.TeacherName,'')  'TeacherName' FROM  testpaper a  left join  major b  on a.MajorId=b.MajorId   left join  college  c  on a.CollegeId=c.Id 	 left join  course d on a.CourseId=d.Id 		left join school e on a.SchoolId=e.Id  		LEFT JOIN  teacher f on a.TeacherId=f.TeacherId  where a.IsDel=0  and  a.Id=?", TestPaperId).
 		Scan(&testPaperDetails.Id, &testPaperDetails.TestPaperName, &testPaperDetails.ExamDuration, &testPaperDetails.FullMarks, &testPaperDetails.PassScore, &testPaperDetails.TestPaperType, &testPaperDetails.CollegeId, &testPaperDetails.MajorId, &testPaperDetails.CourseId, &testPaperDetails.TeacherId, &testPaperDetails.SchoolId, &testPaperDetails.MajorName, &testPaperDetails.CollegeName, &testPaperDetails.CourseName, &testPaperDetails.SchoolName, &testPaperDetails.TeacherName)
 	if testPaperDetails.Id == 0 {
 		c.JSON(http.StatusOK, gin.H{

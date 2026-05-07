@@ -27302,7 +27302,7 @@ CREATE TABLE `testpaper`  (
   `MajorId` int NULL DEFAULT NULL COMMENT '专业id',
   `CourseId` int NULL DEFAULT NULL COMMENT '课程id',
   `QuestionScoreJson` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '试卷题目json',
-  `Teache  rId` int NULL DEFAULT NULL COMMENT '老师id',
+  `TeacherId` int NULL DEFAULT NULL COMMENT '老师id',
   `SchoolId` int NULL DEFAULT NULL COMMENT '学校id',
   `IsDel` int NULL DEFAULT 0 COMMENT '是否删除',
   PRIMARY KEY (`Id`) USING BTREE
