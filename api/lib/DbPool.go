@@ -27,11 +27,48 @@ func InitDB() (err error) {
 	cfg, _ = ini.Load("conf.ini")
 	cfg.Section("database").MapTo(DatabaseSetting)
 
-	// 加上了 &parseTime=True&loc=Local&tls=true
-	// parseTime 允许将数据库日期自动转为 Go 的 time.Time
-	// tls=true 是连接 TiDB Cloud 的核心要求
-	// 核心改动：在 Host 后面强制加上 :4000，并在末尾加上 tls=true
-	dsn = DatabaseSetting.User + ":" + DatabaseSetting.Password + "@tcp(" + DatabaseSetting.Host + ":4000)/" + DatabaseSetting.Name + "?charset=utf8mb4&parseTime=True&loc=Local&tls=true"
+	// 支持 Render 等云端部署时使用环境变量
+	host := os.Getenv("DB_HOST")
+	if host == "" {
+		host = DatabaseSetting.Host
+	}
+
+	user := os.Getenv("DB_USER")
+	if user == "" {
+		user = DatabaseSetting.User
+	}
+
+	password := os.Getenv("DB_PASSWORD")
+	if password == "" {
+		password = DatabaseSetting.Password
+	}
+
+	name := os.Getenv("DB_NAME")
+	if name == "" {
+		name = DatabaseSetting.Name
+	}
+
+	port := os.Getenv("DB_PORT")
+	if port == "" {
+		// 如果是本地，默认从 conf.ini 里面可能自带端口 (如 127.0.0.1:3306)，就不需要再加端口了
+		// 但如果是 TiDB Serverless, 通常需要 :4000
+		port = ""
+	} else {
+		port = ":" + port
+	}
+
+	tlsConfig := "false"
+	if os.Getenv("DB_TLS") == "true" {
+		tlsConfig = "true" // 针对 TiDB
+	}
+
+	// 构造 DSN：如果 host 本身已经带了端口 (比如 conf.ini 里的 127.0.0.1:3306)，就不再拼接 port
+	dsn = user + ":" + password + "@tcp(" + host + port + ")/" + name + "?charset=utf8mb4&parseTime=True&loc=Local"
+	
+	// 只有在明确需要 tls 的时候才加上 &tls=true
+	if tlsConfig == "true" {
+		dsn += "&tls=true"
+	}
 
 	// 注意！！！这里不要使用:=，我们是给全局变量赋值，然后在main函数中使用全局变量db
 	Db, err = sql.Open("mysql", dsn)

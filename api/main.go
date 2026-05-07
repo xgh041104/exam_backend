@@ -42,7 +42,11 @@ func main() {
 	// has := md5.Sum(data)
 	// md5str1 := fmt.Sprintf("%x", has)
 	// fmt.Println(md5str1)
-	lib.InitDB() // 调用输出化数据库的函数
+	err := lib.InitDB() // 调用输出化数据库的函数
+	if err != nil {
+		fmt.Printf("数据库初始化失败: %v\n", err)
+		panic("数据库连接失败, 请检查配置: " + err.Error())
+	}
 	gin.SetMode(gin.DebugMode)
 
 	f, _ := os.Create("gin.log")
@@ -326,7 +330,7 @@ func main() {
 	fmt.Println("服务启动中，监听端口:", port)
 
 	// 启动 Gin
-	err := r.Run(":" + port)
+	err = r.Run(":" + port)
 	if err != nil {
 		fmt.Printf("服务启动失败: %v\n", err)
 	}
