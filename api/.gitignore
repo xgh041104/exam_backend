@@ -1,0 +1,6 @@
+Buildlinux/
+
+*.exe
+*.log
+studyexamplatformapi
+api/conf.ini

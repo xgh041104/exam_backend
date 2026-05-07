@@ -1,0 +1,4 @@
+Libreoffice 7.xxx  office 文档处理转pdf
+ffmpeg  视频处理 视频转m3u8
+ossutil   阿里云对象存储 文件夹批量上传
+7z 

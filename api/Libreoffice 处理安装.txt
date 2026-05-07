@@ -1,0 +1,67 @@
+Libreoffice官网下载地址
+
+到 Libreoffice 官网下载相应系统最新版的 64 位版本的程序。
+
+官网： https://www.libreoffice.org/
+
+Windows下安装Libreoffice
+
+双击下载下来的 Libreoffice 程序，全部使用默认安装的方式进行安装，直接点击“下一步”安装完成。
+
+将Libreoffice 加入到 Windows系统环境 Path 变量。
+
+默认Windows的安装路径是:
+
+C:\Program Files\LibreOffice
+
+加入到系统环境变量中的 Path 变量值：
+
+C:\Program Files\LibreOffice\program
+
+Linux下安装Libreoffice
+
+可以直接在官网进行下载，或者使用如下命令进行安装。
+
+Ubuntu安装命令
+
+[sudo] apt install libreoffice
+
+cnetos安装命令
+
+yum install -y libreoffice
+
+Mac下安装Libreoffice
+
+Mac 下，可直接从官网下载 Mac 下的软件包进行一键安装。或者用 brew 命令一键安装：
+
+[sudo] brew install libreoffice
+
+检测是否安装成功
+
+在终端执行如下命令，查看版本号，能查到版本号，即表示安装成功。
+
+soffice --version
+
+如果查看不到版本号或者提示命令不存在，请检查 Libreoffice 是否已经安装并且配置了 Libreoffice 的系统环境变量。
+
+如果是Linux或者Mac系统下使用命令一键安装的方式的话，在安装的过程中就已经自动添加进去了。
+
+测试文档转换
+
+测试以Ubuntu为例 Libreoffice 在进行文档转换的过程中，转换出来的文档可能会出现乱码，所以需要在正式使用之前，把可能存在的乱码问题进行测试和解决。
+
+创建一个中英文内容的.doc 文档，用如下命令将文档转成 PDF:
+
+[sudo] soffice --headless --invisible --convert-to pdf example.doc
+
+转换成功之后，会在当前目录下生成一个 example.pdf 的文件，然后打开转换后的PDF文件，查看文件中的中文是否存在乱码等。如果存在乱码，则朝以下两个方向去解决。
+
+字符编码是否支持，比如 gbk 或者 utf-8 等
+
+是否缺少相应的中文字体库。如 ubuntu 下，可以使用如下的方式进行安装：
+
+[sudo] apt install ttf-wqy-zenhei
+
+[sudo] apt install fonts-wqy-microhei
+
+ 

@@ -1,0 +1,17 @@
+/deploy
+deploy/*
+/courseImport/video
+deploy.zip
+server.tar
+/DidaScoreExport/img
+/DidaScoreExport/DidaScoreExportNoName.exe
+
+
+/didaExamScoreExportService/*.exe
+
+/gofacepro/*.exe
+
+/gofacepro/exedir/*.exe
+/pyface_recognition/dist
+
+/pyface_recognition/build
