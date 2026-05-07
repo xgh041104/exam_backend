@@ -3,6 +3,7 @@ package lib
 import (
 	"database/sql"
 	"os"
+	"strings"
 	"time"
 
 	log "github.com/sirupsen/logrus"
@@ -60,6 +61,11 @@ func InitDB() (err error) {
 	tlsConfig := "false"
 	if os.Getenv("DB_TLS") == "true" {
 		tlsConfig = "true" // 针对 TiDB
+	}
+
+	// 自动检测 TiDB Cloud 域名，强制开启 TLS
+	if strings.Contains(host, "tidbcloud.com") {
+		tlsConfig = "true"
 	}
 
 	// 构造 DSN：如果 host 本身已经带了端口 (比如 conf.ini 里的 127.0.0.1:3306)，就不再拼接 port
