@@ -53,13 +53,13 @@ func main() {
 
 	r.Use(Cors()) //开启中间件 允许使用跨域请求
 	//学生
-	r.POST("/Student/LoginStudent", jwtUserLoginAuthMiddleware(), User.LoginStudent)
+	r.POST("/Student/LoginStudent", User.LoginStudent)
 	r.POST("/Student/EditStudent", jwtAuthMiddleware(), User.EditStudent)
 	//查询学生个人信息
 	r.GET("/Student/GetStudentViewById", jwtAuthMiddleware(), User.GetStudentViewById)
 
 	//老师登录
-	r.POST("/Manage/LoginTeacher", jwtUserLoginAuthMiddleware(), User.LoginTeacher)
+	r.POST("/Manage/LoginTeacher", User.LoginTeacher)
 	r.POST("/Manage/EditTeacher", User.EditTeacher)
 	r.POST("/Manage/AddTeacher", User.AddTeacher)
 	r.POST("/Manage/DelTeacher", User.DelTeacher)
@@ -68,7 +68,7 @@ func main() {
 	r.GET("/Manage/GetTeacherList", User.GetTeacherList)
 
 	// 管理员接口
-	r.POST("/Manage/LoginAdmin", jwtUserLoginAuthMiddleware(), User.LoginAdmin)
+	r.POST("/Manage/LoginAdmin", User.LoginAdmin)
 
 	//学校
 	r.GET("/Manage/SchoolList", jwtAuthMiddleware(), school.SchoolList)
